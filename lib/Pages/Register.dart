@@ -1,69 +1,133 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'verify.dart';
 
-class Home extends StatefulWidget {
+class MyPhone extends StatefulWidget {
+  const MyPhone({Key? key}) : super(key: key);
+  static String verify = "";
   @override
-  State<Home> createState() => _HomeState();
+  State<MyPhone> createState() => _MyPhoneState();
 }
 
-class _HomeState extends State<Home> {
-  final mobilenumber = TextEditingController();
+class _MyPhoneState extends State<MyPhone> {
+  TextEditingController countryController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    countryController.text = "+91";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
+    var number = "";
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Navigation Exmple'),
+      body: Container(
+        margin: EdgeInsets.only(left: 25, right: 25),
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'images/img1.png',
+                width: 150,
+                height: 150,
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Text(
+                "Phone Verification",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "We need to register your phone without getting started!",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: 55,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      width: 40,
+                      child: TextField(
+                        controller: countryController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "|",
+                      style: TextStyle(fontSize: 33, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: TextField(
+                      onChanged: (value) {
+                        number = value;
+                      },
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Phone",
+                      ),
+                    ))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 45,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.green.shade600,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    onPressed: () async {
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: '+91' + number,
+                        verificationCompleted:
+                            (PhoneAuthCredential credential) {},
+                        verificationFailed: (FirebaseAuthException e) {},
+                        codeSent: (String verificationId, int? resendToken) {
+                          MyPhone.verify = verificationId;
+                          Navigator.pushNamed(context, "/verify");
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {},
+                      );
+                      // 
+                    },
+                    child: Text("Send the code")),
+              )
+            ],
+          ),
         ),
-        body: Container(
-            width: w,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                TextField(
-                  controller: mobilenumber,
-                  decoration: InputDecoration(
-                      hintText: "Enter Your Phone Number",
-                      prefixIcon: Icon(Icons.phone, color: Colors.blueAccent),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () async {
-                    await FirebaseAuth.instance.verifyPhoneNumber(
-                      phoneNumber: '+917202959020',
-                      verificationCompleted: (PhoneAuthCredential credential) {
-                        print("Done");
-                      },
-                      verificationFailed: (FirebaseAuthException e) {
-                        print("not done");
-                      },
-                      codeSent: (String verificationId, int? resendToken) {
-                        print("code sent" + verificationId);
-                      },
-                      codeAutoRetrievalTimeout: (String verificationId) {
-                        print("time out");
-                      },
-                    );
-                    // print(mobilenumber.text);
-                    //  Navigator.pushNamed(context, '/location');
-                  }, //9328527844
-                  label: const Text('Send OTP'),
-
-                  backgroundColor: Colors.pink,
-                ),
-              ],
-            )));
+      ),
+    );
   }
 }

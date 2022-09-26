@@ -36,6 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.9.0
   pinput: ^2.2.12
+  shared_preferences: ^2.0.15
+  file_picker: ^5.2.0
+  firebase_storage: ^10.3.9
+  cloud_firestore: ^3.4.9
 
 dev_dependencies:
   flutter_test:

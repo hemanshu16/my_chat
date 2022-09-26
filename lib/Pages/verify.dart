@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_chat/Services/authStore.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Register.dart';
 
 class MyVerify extends StatefulWidget {
@@ -12,6 +14,9 @@ class MyVerify extends StatefulWidget {
 }
 
 class _MyVerifyState extends State<MyVerify> {
+ 
+ 
+
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -91,9 +96,7 @@ class _MyVerifyState extends State<MyVerify> {
                   SmsCode = value;
                 },
                 length: 6,
-                // defaultPinTheme: defaultPinTheme,
-                // focusedPinTheme: focusedPinTheme,
-                // submittedPinTheme: submittedPinTheme,
+               
 
                 showCursor: true,
                 onCompleted: (pin) => print(pin),
@@ -115,12 +118,39 @@ class _MyVerifyState extends State<MyVerify> {
                           PhoneAuthProvider.credential(
                               verificationId: MyPhone.verify, smsCode: SmsCode);
 
-                      // Sign the user in (or link) with the credential
-                      await auth.signInWithCredential(credential);
-                       Navigator.pop(context);
+                     UserCredential usercredential =  await auth.signInWithCredential(credential);
+                      final prefs = await SharedPreferences.getInstance();
+                       print(usercredential.toString());
+                       String uid = usercredential.user?.uid ?? "not define";
+                       await prefs.setString('credentail', uid);
+                       Navigator.pushNamed(context, "/home");
                       }
                       catch(error){
-                            
+                        print(error.toString());
+                         ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            action: SnackBarAction(
+              label: "",
+              onPressed: () {
+                // Code to execute.
+              },
+            ),
+            content: Text("Please Enter Valid OTP ! ",textAlign: TextAlign.center,),
+            
+            backgroundColor: Colors.red[700],
+            duration: const Duration(milliseconds: 1500),
+            width: 280.0, // Width of the SnackBar.
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0, // Inner padding for SnackBar content.
+            ),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        );
+      
+
                       }
                     },
                     child: Text("Verify Phone Number")),

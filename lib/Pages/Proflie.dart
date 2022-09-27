@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -17,14 +18,16 @@ class _ProfileState extends State<Profile>  {
 
   String image_url  = "";
   var is_image = false;
+  var is_image_selected =  false;
   var imageupload = "";
+  late PlatformFile file;
   Future<String> getuserid() async{
    final prefs = await SharedPreferences.getInstance();
    String userid = await prefs.getString('credentail') ?? "no";
    return userid;
   }
  
-   Future uploadFile(PlatformFile file) async
+   Future uploadFile() async
    {
           String path = file.path ?? "null";
           if(path != "null"){
@@ -49,8 +52,38 @@ class _ProfileState extends State<Profile>  {
           }
 }
 
+ Future savrUserChanges(String name,String desc) async{
+     String userid = await getuserid();
+     final docRef = FirebaseFirestore.instance.collection("users");
+     docRef.where("userid",isEqualTo: userid).get().then( (res) {
+          QueryDocumentSnapshot<Map<String, dynamic>> documentData = res.docs.single;
+        
+  });
+//      docRef.doc(userid).get().then(
+//     (DocumentSnapshot doc) {
+//       if(doc.data() != null){
+//     final data = doc.data() as Map<String, dynamic>;
+//     print(data.toString());
+//     }
+//         else{
+//           final data = <String, dynamic>{
+//             "userid" : userid,
+//             "name" : name,
+//             "about" : desc
+//     };
+//       docRef.doc().set(data);
+
+//     }
+//   },
+//   onError: (e) => print("Error getting document: $e"),
+// );
+ }
+
   @override
   Widget build(BuildContext context) {
+    final usernamecontroller = TextEditingController();
+    final userdescription = TextEditingController();
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
@@ -120,13 +153,10 @@ class _ProfileState extends State<Profile>  {
                           allowMultiple: true,
                           allowedExtensions: ['jpg', 'pdf', 'doc'],
                         );
-                        setState(() {
-                          imageupload = "Image is uploading ....";
-                        });
+                        
                         if (result != null) {
-                          uploadFile(result.files.first);
-                          
-                          
+                          file = result.files.first;
+                           is_image_selected = true;
                         }
                         
                         
@@ -142,41 +172,66 @@ class _ProfileState extends State<Profile>  {
               ),
             ),
             SizedBox(height: 10),
-            Text(
-              'Faldu Hemanshu',
-              style: TextStyle(
-                color: Colors.blue[900],
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
+            TextField(
+              controller: usernamecontroller,
+                    decoration: InputDecoration(
+                        hintText: "Enter Your Name",
+                        prefixIcon: Icon(Icons.person, color: Colors.blueAccent),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30))),
             ),
             SizedBox(height: 40),
             Text(
-              'AGE',
+              'About Your Self',
               style: TextStyle(
                 color: Colors.grey[800],
                 letterSpacing: 2.0,
               ),
             ),
             SizedBox(height: 10),
-            Text(
-              "19",
-              style: TextStyle(
-                color: Colors.blue[900],
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
+                     TextField(
+              controller: userdescription,
+                    decoration: InputDecoration(
+                        hintText: "About Your Self",
+                        prefixIcon: Icon(Icons.person, color: Colors.blueAccent),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30))),
             ),
             SizedBox(height: 50),
+            FloatingActionButton.extended(onPressed: (){
+                  if(is_image_selected)
+                  {
+                        setState(() {
+                          imageupload = "Image is uploading ....";
+                        });
+                    uploadFile();
+                    is_image_selected = false;
+                  }
+                  savrUserChanges(usernamecontroller.text,userdescription.text);
+            },
+             label: const Text('Save'),
+             icon: const Icon(Icons.upload),
+             backgroundColor: Colors.blue,
+            ),
             Row(
               children: [
-                Icon(
-                  Icons.email_rounded,
-                  color: Colors.deepPurple[800],
-                ),
-                SizedBox(width: 12.0),
+               
                 Text(
                    imageupload,
                   style: TextStyle(

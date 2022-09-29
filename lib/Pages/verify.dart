@@ -121,8 +121,10 @@ class _MyVerifyState extends State<MyVerify> {
                      UserCredential usercredential =  await auth.signInWithCredential(credential);
                       final prefs = await SharedPreferences.getInstance();
                        print(usercredential.toString());
-                       String uid = usercredential.user?.uid ?? "not define";
+                       String uid = usercredential.user?.uid ?? "";
+                       String number = usercredential.user?.phoneNumber ?? "";
                        await prefs.setString('credentail', uid);
+                       await prefs.setString('phonenumber', number);
                        Navigator.pushNamed(context, "/home");
                       }
                       catch(error){

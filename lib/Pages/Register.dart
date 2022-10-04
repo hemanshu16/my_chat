@@ -31,7 +31,7 @@ class _MyPhoneState extends State<MyPhone> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'images/img1.png',
+                'assets/images/img1.png',
                 width: 150,
                 height: 150,
               ),

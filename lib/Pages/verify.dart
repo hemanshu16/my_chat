@@ -67,7 +67,7 @@ class _MyVerifyState extends State<MyVerify> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'images/img1.png',
+                'assets/images/img1.png',
                 width: 150,
                 height: 150,
               ),

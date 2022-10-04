@@ -40,7 +40,7 @@ dependencies:
   file_picker: ^5.2.0
   firebase_storage: ^10.3.9
   cloud_firestore: ^3.4.9
-
+  flutter_native_contact_picker: ^0.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,7 +65,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

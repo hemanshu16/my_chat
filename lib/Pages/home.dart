@@ -2,8 +2,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
+import 'package:my_chat/Pages/Proflie.dart';
 import 'package:my_chat/Services/authStore.dart';
+import 'package:my_chat/Pages/chatPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:my_chat/Services/contactlist.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,11 +17,58 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context)  {
-   
+    Widget widget = ChatPage();
+   switch (currentIndex) {
+    case 0:
+      widget = ChatPage();
+      break;
+
+    case 1:
+      widget = ChatPage();
+      break;
+
+    case 2:
+      widget = Profile();
+      break;
+  }
     return Scaffold(
+      body: widget,
+      // body: Container(
+      //   child: Center(child: Text("Chat")),
+      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey.shade600,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        type: BottomNavigationBarType.fixed,
+        onTap: (var index){
+              print(index);
+              setState(() {
+                currentIndex = index;
+              });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: "Chats",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group_work),
+            label: "Channels",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+   /* return Scaffold(
       appBar : AppBar(
         title : new Padding(
                 padding: const EdgeInsets.only(left: 40),
@@ -40,9 +91,26 @@ class _HomeState extends State<Home> {
          Navigator.pushNamed(context,"/Profile");
       },
     )
-  ],
+  ], 
         
       ),
-    );
+      body: Column(
+        children: [
+           FloatingActionButton.extended(onPressed: () async {
+            final FlutterContactPicker _contactPicker = new FlutterContactPicker();
+            Contact? contact = await _contactPicker.selectContact();
+            if(contact != null)
+            {
+             
+              String number = contact.phoneNumbers.toString() ;
+              crudcontactlist.add_contact(number);
+              
+            }
+           },label: const Text("Select Friend"),)
+           ,
+             
+        ],
+      ),
+    );*/
   }
 }

@@ -14,8 +14,7 @@ class chatUserList extends StatefulWidget {
 class _chatUserListState extends State<chatUserList> {
   @override
   Widget build(BuildContext context) {
-       Stream documentStream = FirebaseFirestore.instance.collection('users').doc('+917202959020').snapshots();
- 
+     
      
      return Scaffold(body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('users').doc('+917202959020').collection('+917202959020').snapshots(),

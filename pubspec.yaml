@@ -41,6 +41,9 @@ dependencies:
   firebase_storage: ^10.3.9
   cloud_firestore: ^3.4.9
   flutter_native_contact_picker: ^0.0.3
+  flutter_lints: ^2.0.0
+  flutter_speed_dial: ^6.2.0
+  uuid: ^3.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

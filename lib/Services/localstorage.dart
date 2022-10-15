@@ -3,15 +3,19 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class localStorage{
+  static late SharedPreferences prefs ;
+  
+  static Future initState() async{
+     prefs = await SharedPreferences.getInstance();
+  }
 
-  Future<String> getuserid() async {
-    final prefs = await SharedPreferences.getInstance();
-    String userid = await prefs.getString('phonenumber') ?? "";
+  static String getuserid() {
+    
+    String userid = prefs.getString('phonenumber') ?? "";
     return userid;
   }
 
-  Future cleardata() async {
-    final prefs = await SharedPreferences.getInstance();
+  static Future cleardata() async {
     await prefs.clear();
   }
 }

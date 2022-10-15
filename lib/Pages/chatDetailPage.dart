@@ -1,131 +1,253 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:my_chat/Pages/chatDetailAppbar.dart';
+import 'package:my_chat/Pages/chatmessage.dart';
+import 'package:my_chat/Services/messagecrud.dart';
+import 'package:my_chat/Services/localstorage.dart';
 
-import '../models/chatMessageModel.dart';
-
-class ChatDetailPage extends StatefulWidget{
+class ChatDetailPage extends StatefulWidget {
   @override
+  late String friendId;
+  late String userId;
+  late String roomId;
+  ChatDetailPage({required this.friendId}) {
+    userId = localStorage.getuserid();
+    int user = int.parse(userId);
+    int friend = int.parse(friendId);
+    if (user > friend) {
+      int temp = user;
+      user = friend;
+      friend = temp;
+    }
+    roomId = user.toString() + friendId.toString();
+    print(roomId);
+  }
   _ChatDetailPageState createState() => _ChatDetailPageState();
 }
+void upload_file(String type) async
+{
 
+}
 class _ChatDetailPageState extends State<ChatDetailPage> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(messageContent: "Hey Kriss, I am doing fine dude. wbu?", messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ];
+  final text = TextEditingController();
+  var messages = MessageCrud();
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.green,
-          flexibleSpace: SafeArea(
-            child: Container(
-              padding: EdgeInsets.only(right: 16),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back,color: Colors.black,),
-                  ),
-                  SizedBox(width: 2,),
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/1.jpg'),
-                    maxRadius: 20,
-                  ),
-                  SizedBox(width: 12,),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Kriss Benwat",style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 6,),
-                        Text("Online",style: TextStyle(color: Colors.black, fontSize: 13),),
-                      ],
-                    ),
-                  ),
-                  Icon(Icons.settings,color: Colors.black54,),
-                ],
-              ),
-            ),
+      resizeToAvoidBottomInset: true,
+      body: Column(
+        children: [
+          Container(
+            child: ChatAppDetailAppBar(id: widget.friendId),
           ),
-        ),
-      body: Stack(
-
-      children: <Widget>[
-        ListView.builder(
-        itemCount: messages.length,
-        shrinkWrap: true,
-        padding: EdgeInsets.only(top: 10,bottom: 10),
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index){
-          return Container(
-            padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
-            child: Align(
-              alignment: (messages[index].messageType == "receiver"?Alignment.topLeft:Alignment.topRight),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: (messages[index].messageType  == "receiver"?Colors.grey.shade200:Colors.blue[200]),
+          Container(
+            height: h * 0.8,
+            child: Column(
+              children: [
+                Expanded(
+                  child: chatmessages(friendId: widget.friendId),
                 ),
-                padding: EdgeInsets.all(16),
-                child: Text(messages[index].messageContent, style: TextStyle(fontSize: 15),),
-              ),
-            ),
-          );
-        },
-      ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10,bottom: 10,top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Icon(Icons.add, color: Colors.white, size: 20, ),
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  FloatingActionButton(
-                    onPressed: (){},
-                    child: Icon(Icons.send,color: Colors.white,size: 18,),
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                ],
-
-              ),
+              ],
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+            height: 60,
+            width: double.infinity,
+            color: Colors.white,
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: text,
+                    decoration: InputDecoration(
+                        hintText: "Write message...",
+                        hintStyle: TextStyle(color: Colors.black54),
+                        border: InputBorder.none),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                FloatingActionButton(
+                  heroTag: "#select",
+                  onPressed: () {},
+                  child: SpeedDial(
+                    //Speed dial menu
+
+                    icon: Icons.add, //icon on Floating action button
+                    activeIcon:
+                        Icons.close, //icon when menu is expanded on button
+                    backgroundColor: Colors.blue, //background color of button
+                    foregroundColor:
+                        Colors.white, //font color, icon color in button
+                    activeBackgroundColor:
+                        Colors.blue, //background color when menu is expanded
+                    activeForegroundColor: Colors.white,
+                    buttonSize: Size(45, 45), //button size
+                    visible: true,
+                    closeManually: false,
+                    curve: Curves.linear,
+
+                    onOpen: () =>
+                        print('OPENING DIAL'), // action when menu opens
+                    onClose: () =>
+                        print('DIAL CLOSED'), //action when menu closes
+
+                    elevation: 0, //shadow elevation of button
+                    shape: CircleBorder(), //shape of button
+
+                    children: [
+                      SpeedDialChild(
+                        //speed dial child
+                        child: Icon(Icons.gif),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        label: 'GIF',
+                        labelStyle: TextStyle(fontSize: 18.0),
+                        onTap: () async {
+                            FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowMultiple: true,
+                            allowedExtensions: ['gif'],
+                          );
+
+                          if (result != null) {
+                            String path = result.files.first.path ?? "";
+                            ScaffoldMessenger.of(context).showSnackBar(
+
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds : 10),
+                                content: const Text('File Selected',style: TextStyle(color: Colors.black),),
+                                action: SnackBarAction(
+                                  label: 'Send',
+                                  textColor: Colors.black,
+                                  onPressed: () async {
+                                    bool url = await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path, "gif");
+                                    print(url);
+                                  },
+                                  
+                                ),
+                              ),
+                            );
+                          }
+                          else{}
+                          
+                        },
+                        onLongPress: () => print('GIF'),
+                      ),
+                      SpeedDialChild(
+                        child: Icon(Icons.video_collection),
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        label: 'VIDEO',
+                        labelStyle: TextStyle(fontSize: 18.0),
+                        onTap: () async{
+                              FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowMultiple: true,
+                            allowedExtensions: ['mp4', 'mkv'],
+                          );
+
+                          if (result != null) {
+                            String path = result.files.first.path ?? "";
+                            ScaffoldMessenger.of(context).showSnackBar(
+
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds : 10),
+                                content: const Text('File Selected',style: TextStyle(color: Colors.black),),
+                                action: SnackBarAction(
+                                  label: 'Send',
+                                  textColor: Colors.black,
+                                  onPressed: () async {
+                                    bool url = await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path, "video");
+                                    print(url);
+                                  },
+                                  
+                                ),
+                              ),
+                            );
+                          }
+                          else{}
+                        },
+                        onLongPress: () => print('SECOND CHILD LONG PRESS'),
+                      ),
+                      SpeedDialChild(
+                        child: Icon(Icons.image),
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.green,
+                        label: 'Image',
+                        labelStyle: TextStyle(fontSize: 18.0),
+                        onLongPress: () => print('THIRD CHILD'),
+                        onTap: () async {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowMultiple: true,
+                            allowedExtensions: ['jpg', 'png', 'jpeg'],
+                          );
+
+                          if (result != null) {
+                            String path = result.files.first.path ?? "";
+                            ScaffoldMessenger.of(context).showSnackBar(
+
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds : 10),
+                                content: const Text('File Selected',style: TextStyle(color: Colors.black),),
+                                action: SnackBarAction(
+                                  label: 'Send',
+                                  textColor: Colors.black,
+                                  onPressed: () async {
+                                    bool url = await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path, "image");
+                                    print(url);
+                                  },
+                                  
+                                ),
+                              ),
+                            );
+                          }
+                          else{}
+                        },
+                      ),
+
+                      //add more menu item childs here
+                    ],
+                  ),
+                ),
+                FloatingActionButton(
+                  heroTag: "#send",
+                  onPressed: () {
+                    if (text.text.length > 0) {
+                      messages.sendTextMessage(widget.roomId, widget.userId,
+                          widget.friendId, text.text);
+                    }
+                  },
+                  child: Icon(
+                    Icons.send,
+                    color: Colors.blue,
+                    size: 20,
+                  ),
+                  backgroundColor: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                )
+              ],
+            ),
+          ),
+          
         ],
       ),
     );

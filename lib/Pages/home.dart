@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:my_chat/Pages/Proflie.dart';
-import 'package:my_chat/Services/authStore.dart';
+import 'package:my_chat/Services/status.dart';
 import 'package:my_chat/Pages/chatPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_chat/Services/contactlist.dart';
@@ -16,8 +16,36 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver{
   int currentIndex = 0;
+   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    if (WidgetsBinding.instance.lifecycleState != null) {
+       print("App Started");
+        Status.setStatus("online");
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+      if(state == AppLifecycleState.resumed)
+      {
+         Status.setStatus("online");
+      }
+      else if(state == AppLifecycleState.paused)
+      {
+         Status.setStatus("offline");
+      }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    Status.setStatus("offline");
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context)  {
     Widget widget = ChatPage();
@@ -27,15 +55,14 @@ class _HomeState extends State<Home> {
       break;
 
     case 1:
-      widget = ChatPage();
-      break;
-
-    case 2:
       widget = Profile();
       break;
   }
     return Scaffold(
-      body: widget,
+      resizeToAvoidBottomInset: true,
+      body:Container(
+        child: widget
+      ),
       // body: Container(
       //   child: Center(child: Text("Chat")),
       // ),
@@ -56,10 +83,6 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
             label: "Chats",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_work),
-            label: "Channels",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box),

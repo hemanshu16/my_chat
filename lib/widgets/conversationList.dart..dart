@@ -12,18 +12,16 @@ class ConversationList extends StatefulWidget{
   String old_message = "";
   bool data = false;
   bool isMessageRead;
-  ConversationList({required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead});
+  String id = "";
+  ConversationList({required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead}){
+             id = name;
+  }
   @override
   _ConversationListState createState() => _ConversationListState();
    
 }  
 
 class _ConversationListState extends State<ConversationList> {
-
- 
-    // TODO: implement initState
-    
-    
     
   Widget build(BuildContext context) {
     FirebaseFirestore.instance.collection("users").doc(widget.name).get().then(
@@ -45,7 +43,7 @@ class _ConversationListState extends State<ConversationList> {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context){
-          return ChatDetailPage();
+          return ChatDetailPage(friendId:widget.id);
         }));
       },
       child: Container(

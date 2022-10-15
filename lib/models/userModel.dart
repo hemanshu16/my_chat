@@ -5,12 +5,14 @@ class User {
   final List friends;
   final String name;
   final String url;
+  final String status;
 
   const User(
       {required this.about,
       required this.friends,
       required this.name,
       required this.url,
+      required this.status
       });
 
   static User fromSnap(DocumentSnapshot snap) {
@@ -20,7 +22,8 @@ class User {
       about: snapshot["about"],
       friends : snapshot["friends"] ?? "-1",
       name: snapshot["name"],
-      url: snapshot["url"]
+      url: snapshot["url"],
+      status : snapshot["status"]
     );
   }
 
@@ -29,5 +32,6 @@ class User {
         "friends": friends,
         "name": name,
         "url": url,
+        "status" : status
       };
 }

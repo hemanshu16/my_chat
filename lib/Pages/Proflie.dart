@@ -26,6 +26,7 @@ class _ProfileState extends State<Profile> {
   Future<String> getuserid() async {
     final prefs = await SharedPreferences.getInstance();
     String userid = await prefs.getString('phonenumber') ?? "";
+    print(userid);
     return userid;
   }
 
@@ -65,7 +66,7 @@ class _ProfileState extends State<Profile> {
     final docRef = FirebaseFirestore.instance.collection("users");
     docRef
         .doc(userid)
-        .update({"name": name, "about": desc}).then((value) => {});
+        .set({"name": name, "about": desc},SetOptions(merge : true)).then((value) => {});
   }
 
   Future getUserData() async {
@@ -98,6 +99,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, 
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: new Padding(

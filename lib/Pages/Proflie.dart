@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
       File file1 = File(path);
       String filename = await getuserid();
       final ref =
-          FirebaseStorage.instance.ref().child('Profile_Imgages/${filename}');
+          FirebaseStorage.instance.ref().child('Profile_Imgages/$filename');
 
       UploadTask uploadTask = ref.putFile(file1);
       final snapshot = await uploadTask.whenComplete(() {});
@@ -101,10 +101,10 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, 
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        title: new Padding(
-          padding: const EdgeInsets.only(left: 40),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 40),
           child: Text(
             "My Chat",
             style: TextStyle(fontSize: 22),
@@ -113,7 +113,7 @@ class _ProfileState extends State<Profile> {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
               color: Colors.white,
               size: 30,
@@ -129,7 +129,7 @@ class _ProfileState extends State<Profile> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
+        padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -139,27 +139,27 @@ class _ProfileState extends State<Profile> {
                 Container(
                   width: 350.0,
                   height: 350.0,
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
                   child: Center(
                     child: is_image
                         ? CircleAvatar(
                             backgroundImage: NetworkImage(image_url),
                             radius: 125,
                           )
-                        : CircleAvatar(
+                        : const CircleAvatar(
                             // backgroundImage: AssetImage('images/first.jpg'),
                             radius: 100,
                           ),
-                  ),
-                  padding: EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
                   ),
                 ), //second child
                 Positioned(
                     bottom: 150.0,
                     right: 38.5,
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.photo_camera,
                         color: Colors.blueAccent,
                         size: 50,
@@ -187,22 +187,25 @@ class _ProfileState extends State<Profile> {
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               controller: usernamecontroller,
+              onChanged: (String value){
+                        print("DONe -- " + MediaQuery.of(context).viewInsets.bottom.toString());
+                      },
               decoration: InputDecoration(
                   hintText: "Enter Your Name",
-                  prefixIcon: Icon(Icons.person, color: Colors.blueAccent),
+                  prefixIcon: const Icon(Icons.person, color: Colors.blueAccent),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.white, width: 1.0)),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.white, width: 1.0)),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0)),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30))),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Text(
               'About Your Self',
               style: TextStyle(
@@ -210,22 +213,22 @@ class _ProfileState extends State<Profile> {
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               controller: userdescription,
               decoration: InputDecoration(
                   hintText: "About Your Self",
-                  prefixIcon: Icon(Icons.person, color: Colors.blueAccent),
+                  prefixIcon: const Icon(Icons.person, color: Colors.blueAccent),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.white, width: 1.0)),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.white, width: 1.0)),
+                      borderSide: const BorderSide(color: Colors.white, width: 1.0)),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30))),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -251,7 +254,7 @@ class _ProfileState extends State<Profile> {
                     print(await getuserid());
                     await cleardata();
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => MyPhone()),
+                        MaterialPageRoute(builder: (context) => const MyPhone()),
                         (Route route) => false);
                   },
                   heroTag: "btn2",

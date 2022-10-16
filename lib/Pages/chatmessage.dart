@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_chat/models/chatMessageModel.dart';
 import 'package:my_chat/Services/localstorage.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,18 +39,19 @@ class _chatmessagesState extends State<chatmessages> {
     });
         
   }
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
   void scrolldown()
   {
     _controller.jumpTo(_controller.position.maxScrollExtent);
   }
+  @override
   Widget build(BuildContext context) {
     
 
     return SingleChildScrollView(
         
         controller: _controller,
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection(widget.roomId)
@@ -60,14 +60,14 @@ class _chatmessagesState extends State<chatmessages> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return const Text('Something went wrong');
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
+              return const Text("Loading");
             }
             if (snapshot.data!.size == 0) {
-              return Text(
+              return const Text(
                 "No Conversation Yet Done",
                 style: TextStyle(color: Colors.black),
               );
@@ -77,7 +77,7 @@ class _chatmessagesState extends State<chatmessages> {
             return ListView(
               shrinkWrap: true,
               reverse: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
@@ -96,11 +96,11 @@ class _chatmessagesState extends State<chatmessages> {
                   int seconds = int.parse(time);
                   final DateTime date1 =
                       DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
-                  currenttime = DateFormat.jm().format(date1) +" " + DateFormat.yMd().format(date1);
+                  currenttime = "${DateFormat.jm().format(date1)} ${DateFormat.yMd().format(date1)}";
                 }
 
                 //
-                var meswidget;
+                Column meswidget;
                 if (data['type'] == 'jpg' ||
                     data['type'] == 'jpeg' ||
                     data['type'] == 'png' ||
@@ -108,7 +108,7 @@ class _chatmessagesState extends State<chatmessages> {
                   meswidget = Column(
                     children: [
                       Image.network(data['url']),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Align(
@@ -123,31 +123,31 @@ class _chatmessagesState extends State<chatmessages> {
                   meswidget = Column(
                     children: [
                       Text(data['text']),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
                         currenttime,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       )
                     ],
                   );
                 }
                
-                var paddings;
-                var color;
+                EdgeInsets paddings;
+                Color? color;
                 if (data['type'] == 'png' ||
                     data['type'] == 'jpg' ||
                     data['type'] == 'jpeg' ||
                     data['type'] == 'gif') {
                   color = Colors.white;
                   if (data['senderId'] == widget.userId) {
-                    paddings = EdgeInsets.fromLTRB(40, 0, 0, 0);
+                    paddings = const EdgeInsets.fromLTRB(40, 0, 0, 0);
                   } else {
-                    paddings = EdgeInsets.fromLTRB(0, 0, 40, 0);
+                    paddings = const EdgeInsets.fromLTRB(0, 0, 40, 0);
                   }
                 } else {
-                  paddings = EdgeInsets.all(16);
+                  paddings = const EdgeInsets.all(16);
                   if (data['senderId'] == widget.userId) {
                     color = Colors.blue[200];
                   } else {
@@ -158,7 +158,7 @@ class _chatmessagesState extends State<chatmessages> {
                   onLongPress: () {
                     final snackBar = SnackBar(
                       backgroundColor: Colors.blue[50],
-                      content: Text(data['text'],style: TextStyle(color: Colors.blue),),
+                      content: Text(data['text'],style: const TextStyle(color: Colors.blue),),
                       action: SnackBarAction(
                         label: 'Delete',
                         onPressed: () {
@@ -178,7 +178,7 @@ class _chatmessagesState extends State<chatmessages> {
                     }
                   },
                   child: Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 14, right: 14, top: 10, bottom: 10),
                     child: Align(
                       alignment: (data['senderId'] == widget.userId

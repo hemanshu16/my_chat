@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../Pages/chatDetailPage.dart';
@@ -18,7 +17,7 @@ class ConversationList extends StatefulWidget{
              if(messageText.length > 35)
              {
               messageText = messageText.substring(0,35) ;
-              messageText = messageText + "...";
+              messageText = "$messageText...";
              }
   }
   @override
@@ -28,6 +27,7 @@ class ConversationList extends StatefulWidget{
 
 class _ConversationListState extends State<ConversationList> {
     
+  @override
   Widget build(BuildContext context) {
     FirebaseFirestore.instance.collection("users").doc(widget.name).get().then(
       (DocumentSnapshot doc) {
@@ -52,7 +52,7 @@ class _ConversationListState extends State<ConversationList> {
         }));
       },
       child: Container(
-        padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),
+        padding: const EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -62,13 +62,13 @@ class _ConversationListState extends State<ConversationList> {
                             backgroundImage: NetworkImage(widget.imageUrl),
                             radius: 25,
                           )
-                        : CircleAvatar(
+                        : const CircleAvatar(
                             // backgroundImage: AssetImage('images/first.jpg'),
                             radius: 25,
                           ),
                   
                  
-                  SizedBox(width: 8,), 
+                  const SizedBox(width: 8,), 
                   Expanded(
                     child: Container(
                       height: 60,
@@ -80,18 +80,18 @@ class _ConversationListState extends State<ConversationList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Row(
                             children: [
-                              SizedBox(width: 8,),
-                              Text(widget.name, style: TextStyle(fontSize: 16,color: Color.fromARGB(255, 0, 0, 0)), ),
+                              const SizedBox(width: 8,),
+                              Text(widget.name, style: const TextStyle(fontSize: 16,color: Color.fromARGB(255, 0, 0, 0)), ),
                             ],
                           ),
-                          SizedBox(height: 6,),
+                          const SizedBox(height: 6,),
                           Row(
                             children: [
-                              SizedBox(width: 8,),
-                              Text(widget.messageText,style: TextStyle(fontSize: 13,color: Color.fromARGB(255, 233, 77, 129), fontWeight: widget.isMessageRead?FontWeight.bold:FontWeight.normal),),
+                              const SizedBox(width: 8,),
+                              Text(widget.messageText,style: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 233, 77, 129), fontWeight: widget.isMessageRead?FontWeight.bold:FontWeight.normal),),
                             ],
                           ),
                         ],
@@ -110,7 +110,7 @@ class _ConversationListState extends State<ConversationList> {
               child: Row(
                 children: [
                   Center(child: Text(widget.time,style: TextStyle(fontSize: 12 , fontWeight: widget.isMessageRead?FontWeight.bold:FontWeight.normal),)),
-                  SizedBox(width: 5,)
+                  const SizedBox(width: 5,)
                 ],
               )),
               

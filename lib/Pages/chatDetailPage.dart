@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class ChatDetailPage extends StatefulWidget {
     roomId = user.toString() + friendId.toString();
     print(roomId);
   }
+  @override
   _ChatDetailPageState createState() => _ChatDetailPageState();
 }
 
@@ -33,15 +33,18 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   var messages = MessageCrud();
    final snackBar = SnackBar(
             backgroundColor: Colors.blue[50],
-            duration: Duration(seconds: 200),
+            duration: const Duration(seconds: 200),
             content: const Text('Your File Is Uploading Don\'t do Any thing',style: TextStyle(color: Colors.blue),),
             
           );
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
+    
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      
+      resizeToAvoidBottomInset:false,
+      
       body: Padding(
         padding: EdgeInsets.only(
          bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -50,7 +53,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             Container(
               child: ChatAppDetailAppBar(id: widget.friendId,userid: widget.userId),
             ),
-            Container(
+            SizedBox(
               height: h * 0.8,
               child: Column(
                 children: [
@@ -61,27 +64,30 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+              padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
               height: 60,
               width: double.infinity,
               color: Colors.white,
               child: Row(
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Expanded(
                     child: TextField(
+                       onChanged: (String value){
+                        print("DONe -- " + MediaQuery.of(context).viewInsets.bottom.toString());
+                      },
                       controller: text,
-                    
+                     
                       
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Write message...",
                           hintStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   FloatingActionButton(
@@ -99,7 +105,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       activeBackgroundColor:
                           Colors.blue, //background color when menu is expanded
                       activeForegroundColor: Colors.white,
-                      buttonSize: Size(45, 45), //button size
+                      buttonSize: const Size(45, 45), //button size
                       visible: true,
                       closeManually: false,
                       curve: Curves.linear,
@@ -110,15 +116,15 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                           print('DIAL CLOSED'), //action when menu closes
 
                       elevation: 0, //shadow elevation of button
-                      shape: CircleBorder(), //shape of button
+                      shape: const CircleBorder(), //shape of button
 
                       children: [
                         SpeedDialChild(
-                          child: Icon(Icons.file_copy),
+                          child: const Icon(Icons.file_copy),
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
                           label: 'Files',
-                          labelStyle: TextStyle(fontSize: 18.0),
+                          labelStyle: const TextStyle(fontSize: 18.0),
                           onTap: () async{
                                 FilePickerResult? result =
                                 await FilePicker.platform.pickFiles(
@@ -133,7 +139,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
                                 SnackBar(
                                   backgroundColor: Colors.green,
-                                  duration: Duration(seconds : 10),
+                                  duration: const Duration(seconds : 10),
                                   content: const Text('File Selected',style: TextStyle(color: Colors.black),),
                                   action: SnackBarAction(
                                     label: 'Send',
@@ -155,11 +161,11 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         ),
                         SpeedDialChild(
                           //speed dial child
-                          child: Icon(Icons.gif),
+                          child: const Icon(Icons.gif),
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           label: 'GIF',
-                          labelStyle: TextStyle(fontSize: 18.0),
+                          labelStyle: const TextStyle(fontSize: 18.0),
                           onTap: () async {
                               FilePickerResult? result =
                                 await FilePicker.platform.pickFiles(
@@ -174,7 +180,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
                                 SnackBar(
                                   backgroundColor: Colors.green,
-                                  duration: Duration(seconds : 10),
+                                  duration: const Duration(seconds : 10),
                                   content: const Text('File Selected',style: TextStyle(color: Colors.black),),
                                   action: SnackBarAction(
                                     label: 'Send',
@@ -196,11 +202,11 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         ),
                         
                         SpeedDialChild(
-                          child: Icon(Icons.image),
+                          child: const Icon(Icons.image),
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.green,
                           label: 'Image',
-                          labelStyle: TextStyle(fontSize: 18.0),
+                          labelStyle: const TextStyle(fontSize: 18.0),
                           onLongPress: () => print('THIRD CHILD'),
                           onTap: () async {
                             FilePickerResult? result =
@@ -216,7 +222,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
                                 SnackBar(
                                   backgroundColor: Colors.green,
-                                  duration: Duration(seconds : 10),
+                                  duration: const Duration(seconds : 10),
                                   content: const Text('File Selected',style: TextStyle(color: Colors.black),),
                                   action: SnackBarAction(
                                     label: 'Send',
@@ -242,19 +248,19 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   FloatingActionButton(
                     heroTag: "#send",
                     onPressed: () {
-                      if (text.text.length > 0) {
+                      if (text.text.isNotEmpty) {
                         messages.sendTextMessage(widget.roomId, widget.userId,
                             widget.friendId, text.text);
                       }
                     },
-                    child: Icon(
+                    backgroundColor: Colors.white,
+                    child: const Icon(
                       Icons.send,
                       color: Colors.blue,
                       size: 20,
                     ),
-                    backgroundColor: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   )
                 ],

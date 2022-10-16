@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
-import 'package:my_chat/Pages/chatUserList.dart';
 import 'package:my_chat/Services/contactlist.dart';
 import 'package:my_chat/Services/localstorage.dart';
-import '../models/chatUsersModel.dart';
-import '../models/userModel.dart';
 import '../widgets/conversationList.dart..dart';
 import 'package:intl/intl.dart';
 
@@ -37,14 +34,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SafeArea(
               child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -55,7 +53,7 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+                          const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
@@ -63,10 +61,10 @@ class _ChatPageState extends State<ChatPage> {
                       child: Row(children: [
                         FloatingActionButton.extended(
                           onPressed: () async {
-                            final FlutterContactPicker _contactPicker =
-                                new FlutterContactPicker();
+                            final FlutterContactPicker contactPicker =
+                                FlutterContactPicker();
                             Contact? contact =
-                                await _contactPicker.selectContact();
+                                await contactPicker.selectContact();
                             if (contact != null) {
                               String number = contact.phoneNumbers.toString();
                               int n = number.length;

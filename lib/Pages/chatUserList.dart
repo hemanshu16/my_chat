@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../models/userModel.dart';
-import '../widgets/conversationList.dart..dart';
 
 class chatUserList extends StatefulWidget {
   const chatUserList({super.key});
@@ -28,10 +26,10 @@ class _chatUserListState extends State<chatUserList> {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
               shrinkWrap: true,
-              padding: EdgeInsets.only(top: 16),
-              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(top: 16),
+              physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) => Container(
-                child: Text("hello"),
+                child: const Text("hello"),
              /* child: ConversationList(
                   name: "name",
                   messageText: "message",

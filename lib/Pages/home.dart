@@ -1,13 +1,9 @@
 
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:my_chat/Pages/Proflie.dart';
 import 'package:my_chat/Services/status.dart';
 import 'package:my_chat/Pages/chatPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:my_chat/Services/contactlist.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -55,11 +51,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
       break;
 
     case 1:
-      widget = Profile();
+      widget = const Profile();
       break;
   }
     return Scaffold(
-      
+     
       body:Container(
         child: widget
       ),
@@ -68,10 +64,10 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
       // ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        selectedItemColor: Colors.red,
+        selectedItemColor: Colors.blue[300],
         unselectedItemColor: Colors.grey.shade600,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
         type: BottomNavigationBarType.fixed,
         onTap: (var index){
               print(index);
@@ -79,7 +75,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                 currentIndex = index;
               });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
             label: "Chats",

@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_chat/Services/localstorage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class crudcontactlist{
 
@@ -14,7 +13,7 @@ class crudcontactlist{
 
   static void add_contact(String number) async
    {
-       print(get_contact());
+      
        String userid =  getuserid();
        final docRef = FirebaseFirestore.instance.collection("users").doc(userid).collection("Friends");
        docRef.doc(number).set({"contactId":number,"timesent":"","lastMessage" : "",});
@@ -25,7 +24,7 @@ class crudcontactlist{
    }
 
    static Future<String> get_contact() async{
-           String userid = await getuserid();
+           String userid = getuserid();
     final docRef = FirebaseFirestore.instance.collection("users");
 
     docRef.doc(userid).get().then(

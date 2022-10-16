@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'verify.dart';
 
 class MyPhone extends StatefulWidget {
   const MyPhone({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _MyPhoneState extends State<MyPhone> {
     var number = "";
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Column(
@@ -35,24 +34,24 @@ class _MyPhoneState extends State<MyPhone> {
                 width: 150,
                 height: 150,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
-              Text(
+              const Text(
                 "Phone Verification",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "We need to register your phone without getting started!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -63,7 +62,7 @@ class _MyPhoneState extends State<MyPhone> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     SizedBox(
@@ -71,16 +70,16 @@ class _MyPhoneState extends State<MyPhone> {
                       child: TextField(
                         controller: countryController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       "|",
                       style: TextStyle(fontSize: 33, color: Colors.grey),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
@@ -89,7 +88,7 @@ class _MyPhoneState extends State<MyPhone> {
                         number = value;
                       },
                       keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: "Phone",
                       ),
@@ -97,7 +96,7 @@ class _MyPhoneState extends State<MyPhone> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -105,12 +104,12 @@ class _MyPhoneState extends State<MyPhone> {
                 height: 45,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.green.shade600,
+                        primary: Colors.blue.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
                       await FirebaseAuth.instance.verifyPhoneNumber(
-                        phoneNumber: '+91' + number,
+                        phoneNumber: '+91$number',
                         verificationCompleted:
                             (PhoneAuthCredential credential) {},
                         verificationFailed: (FirebaseAuthException e) {},
@@ -122,7 +121,7 @@ class _MyPhoneState extends State<MyPhone> {
                       );
                       // 
                     },
-                    child: Text("Send the code")),
+                    child: const Text("Send the code")),
               )
             ],
           ),

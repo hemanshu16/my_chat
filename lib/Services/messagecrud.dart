@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 class MessageCrud {
     
     var uuid;
     MessageCrud(){
-     uuid = Uuid();
+     uuid = const Uuid();
     }
     void sendTextMessage(String roomId, String sender, String receiver,String text)
      {      bool isSeen = false;
@@ -40,7 +39,7 @@ class MessageCrud {
      Future<void> sendFileMessage(String roomId,String sender,String receiver,String path) async
      {
             String filename = uuid.v1();
-      final ref = FirebaseStorage.instance.ref().child('${roomId}/${filename}');
+      final ref = FirebaseStorage.instance.ref().child('$roomId/$filename');
       File file = File(path);
       UploadTask uploadTask = ref.putFile(file);
       final snapshot = await uploadTask.whenComplete(() {});

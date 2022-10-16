@@ -45,10 +45,10 @@ class _FriendsProfileState extends State<FriendsProfile> {
     
     return Scaffold(
       resizeToAvoidBottomInset: false, 
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        title: new Padding(
-          padding: const EdgeInsets.only(left: 40),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 40),
           child: Text(
             "Friend",
             style: TextStyle(fontSize: 22),
@@ -58,7 +58,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
        
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
+        padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,20 +68,20 @@ class _FriendsProfileState extends State<FriendsProfile> {
                 Container(
                   width: 350.0,
                   height: 350.0,
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
                   child: Center(
                     child: widget.imageurl != ""
                         ? CircleAvatar(
                             backgroundImage: NetworkImage(widget.imageurl),
                             radius: 125,
                           )
-                        : CircleAvatar(
+                        : const CircleAvatar(
                             // backgroundImage: AssetImage('images/first.jpg'),
                             radius: 100,
                           ),
-                  ),
-                  padding: EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
                   ),
                 ), //second child
                
@@ -94,9 +94,9 @@ class _FriendsProfileState extends State<FriendsProfile> {
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(widget.friendname),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Text(
               'About Friend',
               style: TextStyle(
@@ -104,9 +104,9 @@ class _FriendsProfileState extends State<FriendsProfile> {
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(widget.friendabout),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -128,7 +128,7 @@ class _FriendsProfileState extends State<FriendsProfile> {
                         await doc.reference.delete();
                       }
                        Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => Home()),
+                        MaterialPageRoute(builder: (context) => const Home()),
                         (Route route) => false);
                   },
                   heroTag: "btn1",

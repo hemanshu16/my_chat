@@ -5,7 +5,8 @@ import '../models/userModel.dart';
 
 class ChatAppDetailAppBar extends StatefulWidget {
    String id;
-   ChatAppDetailAppBar({required this.id});
+   String userid;
+   ChatAppDetailAppBar({required this.id,required this.userid});
  
   @override
   State<ChatAppDetailAppBar> createState() => _ChatAppDetailAppBarState();
@@ -18,7 +19,7 @@ class _ChatAppDetailAppBarState extends State<ChatAppDetailAppBar> {
       stream: FirebaseFirestore.instance.collection('users').doc(widget.id).snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (!snapshot.hasData) {
-          return Text("Loading");
+          return const Text("Loading");
         }
          DocumentSnapshot data  = (snapshot.data! as dynamic);
          
@@ -26,36 +27,47 @@ class _ChatAppDetailAppBarState extends State<ChatAppDetailAppBar> {
         return  AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue,
           flexibleSpace: SafeArea(
             child: Container(
-              padding: EdgeInsets.only(right: 16),
+              padding: const EdgeInsets.only(right: 16),
               child: Row(
                 children: <Widget>[
                   IconButton(
                     onPressed: (){
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.arrow_back,color: Colors.black,),
+                    icon: const Icon(Icons.arrow_back,color: Colors.black,),
                   ),
-                  SizedBox(width: 2,),
+                 const SizedBox(width: 2,),
                   CircleAvatar(
                     backgroundImage : NetworkImage(data['url']),
                     maxRadius: 20,
                   ),
-                  SizedBox(width: 12,),
+                 const SizedBox(width: 12,),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(data['name'],style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 6,),
-                        Text(data['status'],style: TextStyle(color: Colors.black, fontSize: 13),),
+                        Text(data['name'],style:const TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
+                       const SizedBox(height: 6,),
+                        Text(data['status'],style:const TextStyle(color: Colors.black, fontSize: 13),),
                       ],
                     ),
                   ),
-                  Icon(Icons.settings,color: Colors.black54,),
+                   
+          IconButton(
+            icon: const Icon(
+              Icons.person,
+              color: Colors.black,
+              size: 30,
+            ),
+            onPressed: () async {
+               await Navigator.pushNamed(context,"/FriendsProfile",arguments: {"userid" :widget.userid,"friendid" : widget.id});
+            },
+          )
+        
                 ],
               ),
             ),

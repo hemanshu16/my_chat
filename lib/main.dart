@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat/Services/localstorage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'Pages/Proflie.dart';
 import 'Pages/Register.dart';
 import 'Pages/home.dart';
+import 'Pages/otheruserprofile.dart';
 import 'Pages/verify.dart';
 
 Future main() async {
@@ -14,16 +14,17 @@ Future main() async {
   
   final String action = localStorage.getuserid();
   String initialroute = "/phone";
-  print(action);
+
   if(action != "")   // here always use "" becaluse if use null then action can't always be null
   {
     initialroute = "/home" ;
   }
   runApp(MaterialApp(initialRoute: initialroute,
    routes: {
-     '/phone': (context) => MyPhone(),
-    '/verify': (context) => MyVerify(),
-    '/home' : (context) => Home(),
-    '/Profile' :(context) => Profile() ,
+     '/phone': (context) => const MyPhone(),
+    '/verify': (context) => const MyVerify(),
+    '/home' : (context) => const Home(),
+    '/Profile' :(context) => const Profile(),
+    '/FriendsProfile' :(context) =>  FriendsProfile(),
   }));
 }

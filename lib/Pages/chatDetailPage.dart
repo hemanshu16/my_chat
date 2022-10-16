@@ -27,228 +27,242 @@ class ChatDetailPage extends StatefulWidget {
   }
   _ChatDetailPageState createState() => _ChatDetailPageState();
 }
-void upload_file(String type) async
-{
 
-}
 class _ChatDetailPageState extends State<ChatDetailPage> {
   final text = TextEditingController();
   var messages = MessageCrud();
+   final snackBar = SnackBar(
+            backgroundColor: Colors.blue[50],
+            duration: Duration(seconds: 200),
+            content: const Text('Your File Is Uploading Don\'t do Any thing',style: TextStyle(color: Colors.blue),),
+            
+          );
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Column(
-        children: [
-          Container(
-            child: ChatAppDetailAppBar(id: widget.friendId),
-          ),
-          Container(
-            height: h * 0.8,
-            child: Column(
-              children: [
-                Expanded(
-                  child: chatmessages(friendId: widget.friendId),
-                ),
-              ],
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: EdgeInsets.only(
+         bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          children: [
+            Container(
+              child: ChatAppDetailAppBar(id: widget.friendId,userid: widget.userId),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-            height: 60,
-            width: double.infinity,
-            color: Colors.white,
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: text,
-                    decoration: InputDecoration(
-                        hintText: "Write message...",
-                        hintStyle: TextStyle(color: Colors.black54),
-                        border: InputBorder.none),
+            Container(
+              height: h * 0.8,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: chatmessages(friendId: widget.friendId),
                   ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                FloatingActionButton(
-                  heroTag: "#select",
-                  onPressed: () {},
-                  child: SpeedDial(
-                    //Speed dial menu
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+              height: 60,
+              width: double.infinity,
+              color: Colors.white,
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: text,
+                    
+                      
+                      decoration: InputDecoration(
+                          hintText: "Write message...",
+                          hintStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  FloatingActionButton(
+                    heroTag: "#select",
+                    onPressed: () {},
+                    child: SpeedDial(
+                      //Speed dial menu
 
-                    icon: Icons.add, //icon on Floating action button
-                    activeIcon:
-                        Icons.close, //icon when menu is expanded on button
-                    backgroundColor: Colors.blue, //background color of button
-                    foregroundColor:
-                        Colors.white, //font color, icon color in button
-                    activeBackgroundColor:
-                        Colors.blue, //background color when menu is expanded
-                    activeForegroundColor: Colors.white,
-                    buttonSize: Size(45, 45), //button size
-                    visible: true,
-                    closeManually: false,
-                    curve: Curves.linear,
+                      icon: Icons.add, //icon on Floating action button
+                      activeIcon:
+                          Icons.close, //icon when menu is expanded on button
+                      backgroundColor: Colors.blue, //background color of button
+                      foregroundColor:
+                          Colors.white, //font color, icon color in button
+                      activeBackgroundColor:
+                          Colors.blue, //background color when menu is expanded
+                      activeForegroundColor: Colors.white,
+                      buttonSize: Size(45, 45), //button size
+                      visible: true,
+                      closeManually: false,
+                      curve: Curves.linear,
 
-                    onOpen: () =>
-                        print('OPENING DIAL'), // action when menu opens
-                    onClose: () =>
-                        print('DIAL CLOSED'), //action when menu closes
+                      onOpen: () =>
+                          print('OPENING DIAL'), // action when menu opens
+                      onClose: () =>
+                          print('DIAL CLOSED'), //action when menu closes
 
-                    elevation: 0, //shadow elevation of button
-                    shape: CircleBorder(), //shape of button
+                      elevation: 0, //shadow elevation of button
+                      shape: CircleBorder(), //shape of button
 
-                    children: [
-                      SpeedDialChild(
-                        //speed dial child
-                        child: Icon(Icons.gif),
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        label: 'GIF',
-                        labelStyle: TextStyle(fontSize: 18.0),
-                        onTap: () async {
-                            FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            type: FileType.custom,
-                            allowMultiple: true,
-                            allowedExtensions: ['gif'],
-                          );
-
-                          if (result != null) {
-                            String path = result.files.first.path ?? "";
-                            ScaffoldMessenger.of(context).showSnackBar(
-
-                              SnackBar(
-                                backgroundColor: Colors.green,
-                                duration: Duration(seconds : 10),
-                                content: const Text('File Selected',style: TextStyle(color: Colors.black),),
-                                action: SnackBarAction(
-                                  label: 'Send',
-                                  textColor: Colors.black,
-                                  onPressed: () async {
-                                    bool url = await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path, "gif");
-                                    print(url);
-                                  },
-                                  
-                                ),
-                              ),
+                      children: [
+                        SpeedDialChild(
+                          child: Icon(Icons.file_copy),
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          label: 'Files',
+                          labelStyle: TextStyle(fontSize: 18.0),
+                          onTap: () async{
+                                FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowMultiple: true,
+                              allowedExtensions: ['mp4','mp3','mkv','pdf','doc','docs','execl'],
                             );
-                          }
-                          else{}
-                          
-                        },
-                        onLongPress: () => print('GIF'),
-                      ),
-                      SpeedDialChild(
-                        child: Icon(Icons.video_collection),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        label: 'VIDEO',
-                        labelStyle: TextStyle(fontSize: 18.0),
-                        onTap: () async{
+
+                            if (result != null) {
+                              String path = result.files.first.path ?? "";
+                              ScaffoldMessenger.of(context).showSnackBar(
+
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds : 10),
+                                  content: const Text('File Selected',style: TextStyle(color: Colors.black),),
+                                  action: SnackBarAction(
+                                    label: 'Send',
+                                    textColor: Colors.black,
+                                    onPressed: () async {
+                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path);
+                                       // ignore: use_build_context_synchronously
+                                       ScaffoldMessenger.of(context).clearSnackBars();
+                                    },
+                                    
+                                  ),
+                                ),
+                              );
+                            }
+                            else{}
+                          },
+                          onLongPress: () => print('SECOND CHILD LONG PRESS'),
+                        ),
+                        SpeedDialChild(
+                          //speed dial child
+                          child: Icon(Icons.gif),
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          label: 'GIF',
+                          labelStyle: TextStyle(fontSize: 18.0),
+                          onTap: () async {
                               FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            type: FileType.custom,
-                            allowMultiple: true,
-                            allowedExtensions: ['mp4', 'mkv'],
-                          );
-
-                          if (result != null) {
-                            String path = result.files.first.path ?? "";
-                            ScaffoldMessenger.of(context).showSnackBar(
-
-                              SnackBar(
-                                backgroundColor: Colors.green,
-                                duration: Duration(seconds : 10),
-                                content: const Text('File Selected',style: TextStyle(color: Colors.black),),
-                                action: SnackBarAction(
-                                  label: 'Send',
-                                  textColor: Colors.black,
-                                  onPressed: () async {
-                                    bool url = await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path, "video");
-                                    print(url);
-                                  },
-                                  
-                                ),
-                              ),
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowMultiple: true,
+                              allowedExtensions: ['gif'],
                             );
-                          }
-                          else{}
-                        },
-                        onLongPress: () => print('SECOND CHILD LONG PRESS'),
-                      ),
-                      SpeedDialChild(
-                        child: Icon(Icons.image),
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.green,
-                        label: 'Image',
-                        labelStyle: TextStyle(fontSize: 18.0),
-                        onLongPress: () => print('THIRD CHILD'),
-                        onTap: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            type: FileType.custom,
-                            allowMultiple: true,
-                            allowedExtensions: ['jpg', 'png', 'jpeg'],
-                          );
 
-                          if (result != null) {
-                            String path = result.files.first.path ?? "";
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            if (result != null) {
+                              String path = result.files.first.path ?? "";
+                              ScaffoldMessenger.of(context).showSnackBar(
 
-                              SnackBar(
-                                backgroundColor: Colors.green,
-                                duration: Duration(seconds : 10),
-                                content: const Text('File Selected',style: TextStyle(color: Colors.black),),
-                                action: SnackBarAction(
-                                  label: 'Send',
-                                  textColor: Colors.black,
-                                  onPressed: () async {
-                                    bool url = await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path, "image");
-                                    print(url);
-                                  },
-                                  
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds : 10),
+                                  content: const Text('File Selected',style: TextStyle(color: Colors.black),),
+                                  action: SnackBarAction(
+                                    label: 'Send',
+                                    textColor: Colors.black,
+                                    onPressed: () async {
+                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path);
+                                      ScaffoldMessenger.of(context).clearSnackBars();
+                                    },
+                                    
+                                  ),
                                 ),
-                              ),
+                              );
+                            }
+                            else{}
+                            
+                          },
+                          onLongPress: () => print('GIF'),
+                        ),
+                        
+                        SpeedDialChild(
+                          child: Icon(Icons.image),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.green,
+                          label: 'Image',
+                          labelStyle: TextStyle(fontSize: 18.0),
+                          onLongPress: () => print('THIRD CHILD'),
+                          onTap: () async {
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowMultiple: true,
+                              allowedExtensions: ['jpg', 'png', 'jpeg'],
                             );
-                          }
-                          else{}
-                        },
-                      ),
 
-                      //add more menu item childs here
-                    ],
+                            if (result != null) {
+                              String path = result.files.first.path ?? "";
+                              ScaffoldMessenger.of(context).showSnackBar(
+
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds : 10),
+                                  content: const Text('File Selected',style: TextStyle(color: Colors.black),),
+                                  action: SnackBarAction(
+                                    label: 'Send',
+                                    textColor: Colors.black,
+                                    onPressed: () async {
+                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      await messages.sendFileMessage(widget.roomId, widget.userId, widget.friendId, path);
+                                       ScaffoldMessenger.of(context).clearSnackBars();
+                                    },
+                                    
+                                  ),
+                                ),
+                              );
+                            }
+                            else{}
+                          },
+                        ),
+
+                        //add more menu item childs here
+                      ],
+                    ),
                   ),
-                ),
-                FloatingActionButton(
-                  heroTag: "#send",
-                  onPressed: () {
-                    if (text.text.length > 0) {
-                      messages.sendTextMessage(widget.roomId, widget.userId,
-                          widget.friendId, text.text);
-                    }
-                  },
-                  child: Icon(
-                    Icons.send,
-                    color: Colors.blue,
-                    size: 20,
+                  FloatingActionButton(
+                    heroTag: "#send",
+                    onPressed: () {
+                      if (text.text.length > 0) {
+                        messages.sendTextMessage(widget.roomId, widget.userId,
+                            widget.friendId, text.text);
+                      }
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.blue,
+                      size: 20,
+                    ),
+                    backgroundColor: Colors.white,
                   ),
-                  backgroundColor: Colors.white,
-                ),
-                SizedBox(
-                  width: 10,
-                )
-              ],
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
             ),
-          ),
-          
-        ],
+            
+          ],
+        ),
       ),
     );
   }

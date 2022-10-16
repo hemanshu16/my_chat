@@ -59,7 +59,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
       break;
   }
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      
       body:Container(
         child: widget
       ),

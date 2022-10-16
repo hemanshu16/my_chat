@@ -1,22 +1,25 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_chat/Services/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class crudcontactlist{
 
-  static Future<String> getuserid() async {
-    final prefs = await SharedPreferences.getInstance();
-    String userid = await prefs.getString('phonenumber') ?? "";
+  static String getuserid()  {
+    
+    String userid = localStorage.getuserid();
     return userid;
   }
 
   static void add_contact(String number) async
    {
        print(get_contact());
-       String userid = await getuserid();
+       String userid =  getuserid();
        final docRef = FirebaseFirestore.instance.collection("users").doc(userid).collection("Friends");
-       docRef.doc(number).set({"contactId":number,"timeSent":"","lastMessage" : "",});
+       docRef.doc(number).set({"contactId":number,"timesent":"","lastMessage" : "",});
+       final docRef1 = FirebaseFirestore.instance.collection("users").doc(number).collection("Friends");
+       docRef1.doc(userid).set({"contactId":userid,"timesent":"","lastMessage" : "",});
        
      //  docRef.update({"friends":FieldValue.arrayRemove([number])});
    }
@@ -37,5 +40,6 @@ class crudcontactlist{
     );
     return "NOt found";
    }
+  
    
 }

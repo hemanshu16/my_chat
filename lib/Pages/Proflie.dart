@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chat/Pages/Register.dart';
+import 'package:my_chat/Services/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
@@ -24,9 +25,9 @@ class _ProfileState extends State<Profile> {
 
   late PlatformFile file;
   Future<String> getuserid() async {
-    final prefs = await SharedPreferences.getInstance();
-    String userid = await prefs.getString('phonenumber') ?? "";
-    print(userid);
+    
+    String userid = localStorage.getuserid();
+   
     return userid;
   }
 

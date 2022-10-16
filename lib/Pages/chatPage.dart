@@ -15,39 +15,11 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<ChatUsers> chatUsers = [
-    ChatUsers(
-        text: "Jane Russel",
-        secondaryText: "Awesome Setup",
-        image: 'assets/images/2.jpg',
-        time: "Now",
-        imageURL: 'assets/images/2.jpg',
-        messageText: '',
-        name: ''),
-    ChatUsers(
-        text: "Glady's Murphy",
-        secondaryText: "That's Great",
-        image: "assets/images/2.jpg",
-        time: "Yesterday",
-        imageURL: '',
-        name: '',
-        messageText: ''),
-    ChatUsers(
-        text: "Jorge Henry",
-        secondaryText: "Hey where are you?",
-        image: "images/userImage3.jpeg",
-        time: "31 Mar",
-        messageText: '',
-        imageURL: '',
-        name: ''),
-    // ChatUsers(text: "Philip Fox", secondaryText: "Busy! Call me in 20 mins", image: "images/userImage4.jpeg", time: "28 Mar"),
-    // ChatUsers(text: "Debra Hawkins", secondaryText: "Thankyou, It's awesome", image: "images/userImage5.jpeg", time: "23 Mar"),
-    // ChatUsers(text: "Jacob Pena", secondaryText: "will update you in evening", image: "images/userImage6.jpeg", time: "17 Mar"),
-    // ChatUsers(text: "Andrey Jones", secondaryText: "Can you please share the file?", image: "images/userImage7.jpeg", time: "24 Feb"),
-    // ChatUsers(text: "John Wick", secondaryText: "How are you?", image: "images/userImage8.jpeg", time: "18 Feb"),
-  ];
   String userid = "";
   bool isuser = false;
+  bool isfriendfound = false;
+  bool ismessage = false;
+  String message = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -55,8 +27,8 @@ class _ChatPageState extends State<ChatPage> {
     getuser();
   }
 
-  void getuser() async { 
-    userid = await localStorage.getuserid();
+  void getuser()  {
+    userid = localStorage.getuserid();
     setState(() {
       isuser = true;
     });
@@ -76,7 +48,7 @@ class _ChatPageState extends State<ChatPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       "Conversations",
                       style:
                           TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
@@ -104,14 +76,35 @@ class _ChatPageState extends State<ChatPage> {
                                 number = number.substring(3);
                               }
                               number = number.replaceAll(' ', '');
-                              crudcontactlist.add_contact(number);
+                              FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(number)
+                                  .get()
+                                  .then(
+                                (DocumentSnapshot doc) {
+                                  if (doc.data() != null) {
+                                    crudcontactlist.add_contact(number);
+                                  } else {
+                                    final snackBar = SnackBar(
+                                      content: const Text(
+                                          "Selected Friend does not have account"),
+                                      action: SnackBarAction(
+                                        label: 'close',
+                                        onPressed: () {},
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                },
+                              );
                             }
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.add,
                             color: Colors.black,
                           ),
-                          label: Text("Add New",
+                          label: const Text("Add New",
                               style:
                                   TextStyle(fontSize: 18, color: Colors.black)),
                           backgroundColor: Colors.pink[50],
@@ -123,8 +116,55 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: TextField(
+                onChanged: (String number){
+                  
+                  FirebaseFirestore.instance.collection("users").doc(number).get().then(
+                  (DocumentSnapshot doc) {
+                    if (doc.data() != null) {
+                    
+                           final snackBar = SnackBar(
+                            duration: const Duration(seconds: 20),
+                            content: const Text('Friend also Using mychat'),
+                            action: SnackBarAction(
+                            label: 'add',
+                            onPressed: () {
+                                 crudcontactlist.add_contact(number);
+                                 final snackBar = SnackBar(
+                                  duration: const Duration(seconds: 20),
+                                  content: const Text('Friend is Added'),
+                                  action: SnackBarAction(
+                                  label: 'close',
+                                  onPressed: () {
+                                      
+                                  },
+                                ),
+                                );
+                                ScaffoldMessenger.of(context).clearSnackBars();
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            },
+                          ),
+                          );
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        
+                    }
+                    else{
+                        final snackBar = SnackBar(
+                            content: const Text('Friend Not Found'),
+                            action: SnackBarAction(
+                            label: 'close',
+                            onPressed: () {
+                            },
+                          ),
+                          );
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  });
+      
+                },
                 decoration: InputDecoration(
                   hintText: "Search...",
                   hintStyle: TextStyle(color: Colors.grey.shade600),
@@ -135,7 +175,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                   filled: true,
                   fillColor: Colors.grey.shade200,
-                  contentPadding: EdgeInsets.all(8),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 16, 8, 8),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                       borderSide: BorderSide(color: Colors.grey.shade100)),
@@ -148,18 +188,19 @@ class _ChatPageState extends State<ChatPage> {
                         .collection("users")
                         .doc(userid)
                         .collection("Friends")
+                        .orderBy("timesent", descending: true)
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return Text('Something went wrong');
+                        return const Text('Something went wrong');
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("Loading");
+                        return const Text("Loading");
                       }
                       if (snapshot.data!.size == 0) {
-                        return Text(
+                        return const Text(
                           "No Friends",
                           style: TextStyle(color: Colors.black),
                         );
@@ -168,22 +209,21 @@ class _ChatPageState extends State<ChatPage> {
                       // return Container();
                       return ListView(
                         shrinkWrap: true,
-                   
-                        physics: ScrollPhysics(), 
+                        physics: const ScrollPhysics(),
                         children: snapshot.data!.docs
                             .map((DocumentSnapshot document) {
                           Map<String, dynamic> data =
                               document.data()! as Map<String, dynamic>;
-                          var arr = data['timeSent'].toString().split("=");
-                          // String time = arr[3];
-                          // time  = time.substring(0,time.length-1);
+                          var arr = data['timesent'].toString().split("=");
                           int length = arr.length;
                           String currenttime = "";
+
                           int time = 0;
                           if (length == 3) {
-                            String time = arr[2];
-                            int seconds =
-                                int.parse(time.substring(0, time.length - 2));
+                            String time = arr[1];
+                            time = time.split(",")[0];
+
+                            int seconds = int.parse(time);
                             final DateTime date1 =
                                 DateTime.fromMillisecondsSinceEpoch(
                                     seconds * 1000);
@@ -200,25 +240,10 @@ class _ChatPageState extends State<ChatPage> {
                       );
                     },
                   )
-                : Text(
+                : const Text(
                     "Loading",
                     style: TextStyle(color: Colors.black),
                   ),
-            /*  ListView.builder(
-              itemCount: chatUsers.length,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 16),
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index){
-                return ConversationList(
-                  name: chatUsers[index].name,
-                  messageText: chatUsers[index].messageText,
-                  imageUrl: chatUsers[index].imageURL,
-                  time: chatUsers[index].time,
-                  isMessageRead: (index == 0 || index == 1)?true:false,
-                ); 
-              },
-            ),*/
           ],
         ),
       ),

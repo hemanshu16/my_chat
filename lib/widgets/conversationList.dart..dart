@@ -15,6 +15,11 @@ class ConversationList extends StatefulWidget{
   String id = "";
   ConversationList({required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead}){
              id = name;
+             if(messageText.length > 35)
+             {
+              messageText = messageText.substring(0,35) ;
+              messageText = messageText + "...";
+             }
   }
   @override
   _ConversationListState createState() => _ConversationListState();

@@ -15,7 +15,7 @@ Future main() async {
   final String action = localStorage.getuserid();
   String initialroute = "/phone";
 
-  if(action != "")   // here always use "" becaluse if use null then action can't always be null
+  if(action != "")   // here always use " " becaluse if use null then action can't always be null
   {
     initialroute = "/home" ;
   }

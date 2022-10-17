@@ -16,13 +16,17 @@ class ChatDetailPage extends StatefulWidget {
     userId = localStorage.getuserid();
     int user = int.parse(userId);
     int friend = int.parse(friendId);
+    
     if (user > friend) {
       int temp = user;
       user = friend;
       friend = temp;
     }
-    roomId = user.toString() + friendId.toString();
-    print(roomId);
+    roomId = user.toString();
+    String temp = friend.toString();
+   
+    roomId = roomId +temp;
+    
   }
   @override
   _ChatDetailPageState createState() => _ChatDetailPageState();
@@ -76,9 +80,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   ),
                   Expanded(
                     child: TextField(
-                       onChanged: (String value){
-                        print("DONe -- " + MediaQuery.of(context).viewInsets.bottom.toString());
-                      },
+                      
                       controller: text,
                      
                       
@@ -250,8 +252,10 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     heroTag: "#send",
                     onPressed: () {
                       if (text.text.isNotEmpty) {
+                      
                         messages.sendTextMessage(widget.roomId, widget.userId,
                             widget.friendId, text.text);
+                            text.text = "";
                       }
                     },
                     backgroundColor: Colors.white,

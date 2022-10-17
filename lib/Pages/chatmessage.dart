@@ -19,8 +19,11 @@ class chatmessages extends StatefulWidget {
       user = friend;
       friend = temp;
     }
-    roomId = user.toString() + friendId.toString();
-    print(roomId);
+    roomId = user.toString();
+    String temp = friend.toString();
+   
+    roomId = roomId +temp;
+   
   }
 
   @override
@@ -60,16 +63,37 @@ class _chatmessagesState extends State<chatmessages> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return const Text('Something went wrong');
+              return  Container(
+                height: 200,
+                child: const Center(
+                  child: Text(
+                    "Some Thing Went Wrong",
+                    style: TextStyle(color: Colors.black,fontSize: 25),
+                  ),
+                ),
+              );
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text("Loading");
+              return  Container(
+                height: 200,
+                child: const Center(
+                  child: Text(
+                    "Loading",
+                    style: TextStyle(color: Colors.black,fontSize: 25),
+                  ),
+                ),
+              );
             }
             if (snapshot.data!.size == 0) {
-              return const Text(
-                "No Conversation Yet Done",
-                style: TextStyle(color: Colors.black),
+              return Container(
+                height: 200,
+                child: const Center(
+                  child: Text(
+                    "No Conversation Done Yet",
+                    style: TextStyle(color: Colors.black,fontSize: 25),
+                  ),
+                ),
               );
             }
              

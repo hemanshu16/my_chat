@@ -34,7 +34,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -191,17 +191,38 @@ class _ChatPageState extends State<ChatPage> {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return const Text('Something went wrong');
+                        return  Container(
+                height: 200,
+                child: const Center(
+                  child: Text(
+                    "Some Thing Went Wrong",
+                    style: TextStyle(color: Colors.black,fontSize: 25),
+                  ),
+                ),
+              );
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text("Loading");
+                        return  Container(
+                height: 200,
+                child: const Center(
+                  child: Text(
+                    "Loading",
+                    style: TextStyle(color: Colors.black,fontSize: 25),
+                  ),
+                ),
+              );
                       }
                       if (snapshot.data!.size == 0) {
-                        return const Text(
-                          "No Friends",
-                          style: TextStyle(color: Colors.black),
-                        );
+                        return  Container(
+                height: 200,
+                child: const Center(
+                  child: Text(
+                    "No Friends",
+                    style: TextStyle(color: Colors.black,fontSize: 25),
+                  ),
+                ),
+              );
                       }
 
                       // return Container();

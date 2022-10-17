@@ -146,7 +146,7 @@ class _ProfileState extends State<Profile> {
                             radius: 125,
                           )
                         : const CircleAvatar(
-                            backgroundImage: AssetImage('https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'),
+                            backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'),
                             radius: 100,
                           ),
                   ),

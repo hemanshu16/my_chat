@@ -12,7 +12,7 @@ class MessageCrud {
     void sendTextMessage(String roomId, String sender, String receiver,String text)
      {      bool isSeen = false;
             String filename = uuid.v1();
-             
+             print( "\n\n-------------"+roomId);
             FirebaseFirestore.instance.collection(roomId).doc(filename).set(
               {"senderId":sender,
               "recieverId":receiver,

@@ -26,5 +26,6 @@ Future main() async {
     '/home' : (context) => const Home(),
     '/Profile' :(context) => const Profile(),
     '/FriendsProfile' :(context) =>  FriendsProfile(),
+    
   }));
 }

@@ -26,7 +26,7 @@ class ChatDetailPage extends StatefulWidget {
   }
   @override
   _ChatDetailPageState createState() => _ChatDetailPageState();
-}
+} 
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
   final text = TextEditingController();
@@ -43,7 +43,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     
     return Scaffold(
       
-      resizeToAvoidBottomInset:false,
+      resizeToAvoidBottomInset:true,
       
       body: Padding(
         padding: EdgeInsets.only(
@@ -58,6 +58,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               child: Column(
                 children: [
                   Expanded(
+                  
                     child: chatmessages(friendId: widget.friendId),
                   ),
                 ],

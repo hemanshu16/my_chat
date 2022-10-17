@@ -100,7 +100,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, 
+      resizeToAvoidBottomInset: true, 
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: const Padding(
@@ -110,7 +110,7 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(fontSize: 22),
           ),
         ),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         actions: <Widget>[
           IconButton(
             icon: const Icon(
@@ -119,11 +119,7 @@ class _ProfileState extends State<Profile> {
               size: 30,
             ),
             onPressed: () async {
-              // final prefs = await SharedPreferences.getInstance();
-              // final String? action = prefs.getString('credentail');
-              // final success = await prefs.remove('credentail');
-              // print(action);
-              // Navigator.pushNamed(context,"/Profile");
+              
             },
           )
         ],
@@ -150,7 +146,7 @@ class _ProfileState extends State<Profile> {
                             radius: 125,
                           )
                         : const CircleAvatar(
-                            // backgroundImage: AssetImage('images/first.jpg'),
+                            backgroundImage: AssetImage('https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'),
                             radius: 100,
                           ),
                   ),

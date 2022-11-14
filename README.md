@@ -1,6 +1,5 @@
 # My_Chat
-
-A Flutter project.
+A chat app made by Flutter and Firebase.
 
 ## features
 - ⭐ Login with OTP on first time.

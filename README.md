@@ -47,7 +47,7 @@ A chat app made by Flutter and Firebase.
  From Android Studio :- Click on Terminal Tab and execute Command "./gradlew signingReport"
  From VS Code :-  cd android
                 ./gradlew signingReport 
- keys are printed in termianl and Upload this keys in Project Settings in Firebase Console.
+ keys are printed in terminal and Upload this keys in Project Settings in Firebase Console.
  ```
 
 (4)
@@ -61,9 +61,10 @@ Now Project is Ready to Run, click on run button and application will start.
 - ⬇️ Download This App       :- [click Here](https://drive.google.com/file/d/18UtAHQlCnCJzbxJ4habPs7evfrU3fq5H/view)
 
 ### Contact Us
+
 - Hemanshu Faldu :- <br>
-<p align="left">
-<a href="https://www.linkedin.com/in/hemanshu-faldu-54a732207/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="jay-gajera-a6496b204" height="30" width="40" /></a>
+ <p align="left">
+ <a href="https://www.linkedin.com/in/hemanshu-faldu-54a732207/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="jay-gajera-a6496b204" height="30" width="40" /></a>
 <br>
 - Jay Gajera :- <br>
  <p align="left">

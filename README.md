@@ -40,7 +40,6 @@ A chat app made by Flutter and Firebase.
   Our Project is Android App from their Select Android option.
   There first enter package name which is written in project Folder -> android/app/build.gradle -> defaultConfig -> applicationId
   After that follow the steps given there. 
-
  ```
   (3)
 ```sh
@@ -49,13 +48,11 @@ A chat app made by Flutter and Firebase.
  From VS Code :-  cd android
                 ./gradlew signingReport 
  keys are printed in termianl and Upload this keys in Project Settings in Firebase Console.
- ...
  ```
 
 (4)
 ```sh
 Now Project is Ready to Run, click on run button and application will start.
-..
 ```
 
 ## Important Links
@@ -67,8 +64,7 @@ Now Project is Ready to Run, click on run button and application will start.
 - Hemanshu Faldu :- <br>
 <p align="left">
 <a href="https://www.linkedin.com/in/hemanshu-faldu-54a732207/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="jay-gajera-a6496b204" height="30" width="40" /></a>
-
-<br><br>
+<br>
 - Jay Gajera :- <br>
  <p align="left">
  <a href="https://instagram.com/jay_gajera_17" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="jay-gajera_17" height="30" width="40" /></a>

@@ -36,7 +36,7 @@ A chat app made by Flutter and Firebase.
 ```
  (2)
 ```sh
-  Sign In / Sign Up in Firebase and create New Project
+  Sign In / Sign Up in Firebase, Go To Console and create New Project
   Our Project is Android App from their Select Android option.
   There first enter package name which is written in project Folder -> android/app/build.gradle -> defaultConfig -> applicationId
   After that follow the steps given there. 

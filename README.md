@@ -31,14 +31,24 @@ A chat app made by Flutter and Firebase.
 
  (1)
 ```sh
- ... coming soon ...
+ First Download Project Zip File and Extract it and open in android Studio
+
 ```
  (2)
 ```sh
- ...
+  Sign In / Sign Up in Firebase and create New Project
+  Our Project is Android App from their Select Android option.
+  There first enter package name which is written in project android/app/build.gradle file as applicationId
+  After that follow steps given there. 
+
  ```
   (3)
 ```sh
+ Generating SHA-1 And SHA-256 Key
+ From Android Studio :- Click on Terminal Tab and execute Command "./gradlew signingReport"
+ Fro VS Code :-  cd android
+                ./gradlew signingReport 
+ Upload this keys in firebase console in Project Settings.
  ...
  ```
 

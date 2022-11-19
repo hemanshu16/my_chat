@@ -31,29 +31,30 @@ A chat app made by Flutter and Firebase.
 
  (1)
 ```sh
- First Download Project Zip File and Extract it and open in android Studio
+   Fork This Repository and Download Project Zip File After Extract it and open in android Studio or VS Code.
 
 ```
  (2)
 ```sh
   Sign In / Sign Up in Firebase and create New Project
   Our Project is Android App from their Select Android option.
-  There first enter package name which is written in project android/app/build.gradle file as applicationId
-  After that follow steps given there. 
+  There first enter package name which is written in project Folder -> android/app/build.gradle -> defaultConfig -> applicationId
+  After that follow the steps given there. 
 
  ```
   (3)
 ```sh
  Generating SHA-1 And SHA-256 Key
  From Android Studio :- Click on Terminal Tab and execute Command "./gradlew signingReport"
- Fro VS Code :-  cd android
+ From VS Code :-  cd android
                 ./gradlew signingReport 
- Upload this keys in firebase console in Project Settings.
+ keys are printed in termianl and Upload this keys in Project Settings in Firebase Console.
  ...
  ```
 
 (4)
 ```sh
+Now Project is Ready to Run, click on run button and application will start.
 ..
 ```
 
@@ -63,7 +64,10 @@ A chat app made by Flutter and Firebase.
 - ⬇️ Download This App       :- [click Here](https://drive.google.com/file/d/18UtAHQlCnCJzbxJ4habPs7evfrU3fq5H/view)
 
 ### Contact Us
-- Hemanshu Faldu :-
+- Hemanshu Faldu :- <br>
+<p align="left">
+<a href="https://www.linkedin.com/in/hemanshu-faldu-54a732207/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="jay-gajera-a6496b204" height="30" width="40" /></a>
+
 <br><br>
 - Jay Gajera :- <br>
  <p align="left">

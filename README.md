@@ -65,7 +65,7 @@ Now Project is Ready to Run, click on run button and application will start.
 - Hemanshu Faldu :- <br>
  <p align="left">
  <a href="https://www.linkedin.com/in/hemanshu-faldu-54a732207/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="jay-gajera-a6496b204" height="30" width="40" /></a>
-<br>
+<br><br>
 - Jay Gajera :- <br>
  <p align="left">
  <a href="https://instagram.com/jay_gajera_17" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="jay-gajera_17" height="30" width="40" /></a>
